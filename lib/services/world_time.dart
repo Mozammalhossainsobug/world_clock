@@ -1,36 +1,40 @@
 import 'package:http/http.dart';
 import 'dart:convert';
-import 'package:geolocator/geolocator.dart';
-import 'package:geocoder/geocoder.dart';
+import 'package:geocoding/geocoding.dart';
 
 class WorldTime {
-   late String location;
-   late String dataDate;
-   late String dataTime;
-   late double latitude, longitude;
+  late String userInput;
+  late String dataDate;
+  late String dataTime;
+  late String dataTimeZone;
+  late double latitude, longitude;
+  late bool isDayTime;
 
-    WorldTime({required this.location});
+  WorldTime({required this.userInput});
+
+  Future<void> getTime() async {
+    try{
+      List<Location> locations = await locationFromAddress(userInput);
+      Location location = locations.first;
+
+      Response response = await get(Uri.parse(
+          "https://timeapi.io/api/Time/current/coordinate?latitude=${location.latitude}&longitude=${location.longitude}"));
+      Map data = jsonDecode(response.body);
 
 
 
-  void getTime() async {
+      dataTime = data['time'];
+      dataDate = data['date'];
+      dataTimeZone = data['timeZone'];
 
-    final Geolocator geolocator = Geolocator();
-    List<Placemark> placemarks = await geolocator.placemarkFromAddress(location);
-    Placemark placemark = placemarks.first;
-    latitude = placemark.position.latitude;
-    longitude = placemark.position.longitude;
+      int hour = int.parse(dataTime[0]) * 10 + int.parse(dataTime[1]);
 
-    Response response = await get(Uri.parse("https://timeapi.io/api/Time/current/coordinate?latitude=$latitude&longitude=$longitude"));
-    Map data = jsonDecode(response.body);
+      isDayTime = hour > 6 && hour < 20 ? true : false;
+    }
+    catch(e) {
+      dataTime = "Couldn't Get the time data";
+      dataDate = "Check your internet connection or enter a valid city";
+    }
 
-    String dataTime = data['time'];
-    String dataDate = data['date'];
-    String DataTimeZone = data['timeZone'];
-
-    print(DataTimeZone);
-    print(dataTime);
-    print(dataDate);
   }
-
 }
