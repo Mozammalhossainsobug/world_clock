@@ -33,13 +33,14 @@ class _ChooseLocationState extends State<ChooseLocation> {
         elevation: 0.0,
       ),
       body:  Column(
+        mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
               margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
               padding: EdgeInsets.fromLTRB(20.0,20.0,20.0,20.0),
               decoration:
               BoxDecoration(
-                color: Colors.blueAccent,
+                color: Colors.grey,
                 border: Border.all(color: Colors.grey, width: .5),
                 borderRadius: BorderRadius.circular(3),
                 boxShadow: [
@@ -62,13 +63,13 @@ class _ChooseLocationState extends State<ChooseLocation> {
               ),
             ),
             Container(
-              margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
+              margin: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
               padding: EdgeInsets.fromLTRB(40.0,10.0,40.0,10.0),
               decoration:
               BoxDecoration(
-                color: Colors.blueAccent,
+                color: Colors.blue,
                 border: Border.all(color: Colors.grey, width: .5),
-                borderRadius: BorderRadius.circular(3),
+                borderRadius: BorderRadius.circular(9),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey,
